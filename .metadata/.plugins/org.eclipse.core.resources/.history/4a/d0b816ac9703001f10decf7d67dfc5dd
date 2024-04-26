@@ -1,0 +1,62 @@
+package Book;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+public class Book1 {
+    private static ArrayList<String> bookList = new ArrayList<>(); // 도서 목록을 저장할 리스트
+
+    public static void main(String[] args) {
+        JFrame f = new JFrame("도서 관리 프로그램");
+        f.setBounds(200, 20, 500, 400);
+        f.setLayout(new FlowLayout()); // FlowLayout으로 변경
+        f.setVisible(true);
+
+        // 도서 등록 폼 구성
+        JLabel titleLabel = new JLabel("도서 제목:");
+        JTextField titleField = new JTextField(20);
+        JLabel authorLabel = new JLabel("저자:");
+        JTextField authorField = new JTextField(20);
+        JButton addButton = new JButton("등록");
+
+        // 도서 목록 출력 영역 구성
+        JTextArea bookTextArea = new JTextArea(15, 40);
+        JScrollPane scrollPane = new JScrollPane(bookTextArea);
+
+        // 등록 버튼에 ActionListener 추가
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // 도서 등록 버튼 클릭 시 실행되는 코드
+                String title = titleField.getText();
+                String author = authorField.getText();
+                String bookInfo = title + " - " + author;
+                bookList.add(bookInfo);
+                updateBookList(bookTextArea); // 도서 목록 업데이트
+                titleField.setText(""); // 입력 필드 초기화
+                authorField.setText("");
+            }
+        });
+
+        // 프레임에 컴포넌트 추가
+        f.add(titleLabel);
+        f.add(titleField);
+        f.add(authorLabel);
+        f.add(authorField);
+        f.add(addButton);
+        f.add(scrollPane);
+
+        f.pack(); // 프레임 크기 자동 조정
+    }
+
+    // 도서 목록 업데이트 메서드
+    private static void updateBookList(JTextArea bookTextArea) {
+        bookTextArea.setText(""); // 기존 목록 초기화
+        for (String book : bookList) {
+            bookTextArea.append(book + "\n"); // 새로운 목록 추가
+        }
+    }
+}

@@ -1,0 +1,87 @@
+package Book;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+
+public class Book2 {
+    private static ArrayList<String> bookList = new ArrayList<>();
+    
+    public static void main(String[] args) {
+        // "도서 목록" 프레임 생성
+        JFrame bookListFrame = new JFrame("도서 목록");
+        bookListFrame.setBounds(200, 20, 500, 500);
+        bookListFrame.setLayout(new BorderLayout());
+
+        JTextArea bookTextArea = new JTextArea(15, 40);
+        JScrollPane scrollPane = new JScrollPane(bookTextArea);
+        bookListFrame.add(scrollPane, BorderLayout.CENTER);
+
+        // "도서 등록" 프레임 생성
+        JFrame registerFrame = new JFrame("도서 등록");
+        registerFrame.setBounds(200, 20, 300, 150);
+        JPanel registerPanel = new JPanel();
+        JLabel nameLabel = new JLabel("도서 이름:");
+        JTextField nameField = new JTextField(20);
+        JButton registerButton = new JButton("등록");
+        registerPanel.add(nameLabel);
+        registerPanel.add(nameField);
+        registerPanel.add(registerButton);
+        registerFrame.add(registerPanel);
+
+        // "도서" 버튼 생성
+        JButton bookButton = new JButton("도서");
+        bookButton.setBounds(350, 20, 100, 50);
+        bookButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // "도서 목록" 창 보이기
+                bookListFrame.setVisible(true);
+            }
+        });
+
+        // "등록" 버튼의 ActionListener
+        registerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String bookName = nameField.getText();
+                if (!bookName.isEmpty()) {
+                    bookList.add(bookName);
+                    showBookList(bookTextArea);
+                    nameField.setText("");
+                }
+            }
+        });
+
+
+        // "도서" 버튼을 프레임에 추가
+		JFrame f = new JFrame("도서 관리 프로그램");
+		f.setBounds(200,20,1500,1000);
+		f.setLayout(null);
+		f.setVisible(true);
+	
+		JPanel container = new JPanel();
+		container.setBounds(330,0,700,100);
+	
+		JButton button1 = new JButton("대여");
+		button1.setBounds(250,20,100,50);
+		JButton button2 = new JButton("도서");
+		button2.setBounds(350,20,100,50);
+		JButton button3 = new JButton("회원");
+		button3.setBounds(450,20,100,50);
+		JButton button4 = new JButton("종료");
+		button4.setBounds(550,20,100,50);
+
+        // "도서 목록" 창 보이도록 설정
+        bookListFrame.setVisible(false);
+
+    }
+
+    private static void showBookList(JTextArea bookTextArea) {
+        bookTextArea.setText("도서 목록:\n");
+        for (String book : bookList) {
+            bookTextArea.append(book + "\n");
+        }
+    }
+}

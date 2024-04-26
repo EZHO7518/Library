@@ -1,0 +1,78 @@
+package Book;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+
+public class Book2 {
+    private static ArrayList<String> bookList = new ArrayList<>();
+
+    public static void main(String[] args) {
+        JFrame f = new JFrame("도서 관리 프로그램");
+        f.setBounds(200, 20, 1500, 1000);
+        f.setLayout(null);
+        f.setVisible(true);
+
+        JPanel container = new JPanel();
+        container.setBounds(330, 0, 700, 100);
+        f.add(container);
+
+        JButton rentButton = new JButton("대여");
+        rentButton.setBounds(250, 20, 100, 50);
+        JButton bookButton = new JButton("도서");
+        bookButton.setBounds(350, 20, 100, 50);
+        JButton memberButton = new JButton("회원");
+        memberButton.setBounds(450, 20, 100, 50);
+        JButton exitButton = new JButton("종료");
+        exitButton.setBounds(550, 20, 100, 50);
+
+        JTextArea bookTextArea = new JTextArea(15, 40);
+        JScrollPane scrollPane = new JScrollPane(bookTextArea);
+        scrollPane.setBounds(200, 200, 300, 300);
+
+        JLabel nameLabel = new JLabel("도서 이름:");
+        nameLabel.setBounds(50, 200, 100, 30);
+        JTextField nameField = new JTextField();
+        nameField.setBounds(150, 200, 200, 30);
+        JButton registerButton = new JButton("등록");
+        registerButton.setBounds(150, 250, 100, 30);
+
+        bookButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showBookList(bookTextArea);
+            }
+        });
+
+        registerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String bookName = nameField.getText();
+                if (!bookName.isEmpty()) {
+                    bookList.add(bookName);
+                    showBookList(bookTextArea);
+                    nameField.setText("");
+                }
+            }
+        });
+
+        container.add(rentButton);
+        container.add(bookButton);
+        container.add(memberButton);
+        container.add(exitButton);
+
+        f.add(container);
+        f.add(scrollPane);
+        f.add(nameLabel);
+        f.add(nameField);
+        f.add(registerButton);
+    }
+
+    private static void showBookList(JTextArea bookTextArea) {
+        bookTextArea.setText("도서 목록:\n");
+        for (String book : bookList) {
+            bookTextArea.append(book + "\n");
+        }
+    }
+}

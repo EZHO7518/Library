@@ -1,0 +1,30 @@
+package Book;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class Book {
+	public static void main(String[] args) {
+		JFrame f = new JFrame("도서 관리 프로그램");
+		f.setBounds(200,20,1500,1000);
+		f.setLayout(null);
+		f.setVisible(true);
+	
+		JPanel container = new JPanel();
+		container.setBounds(330,0,700,100);
+	
+		JButton button1 = new JButton("대여");
+		button1.setBounds(50,0,100,50);
+		JButton button2 = new JButton("도서");
+		button1.setBounds(150,0,100,50);
+		JButton button3 = new JButton("회원");
+		button1.setBounds(250,0,100,50);
+		JButton button4 = new JButton("종료");
+		button1.setBounds(350,0,100,50);
+	
+		container.add(button1);
+		container.add(button2);
+		container.add(button3);
+		container.add(button4);
+	}
+}

@@ -1,0 +1,108 @@
+package Book;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class Book2 {
+    private static ArrayList<String> bookList = new ArrayList<>();
+    private static HashMap<String, String> bookImages = new HashMap<>(); // Store book names and image paths
+
+    public static void main(String[] args) {
+        JFrame f = new JFrame("도서 관리 프로그램");
+        f.setBounds(200, 20, 1500, 1000);
+        f.setLayout(null);
+        f.setVisible(true);
+
+        JPanel container = new JPanel();
+        container.setBounds(330, 0, 700, 100);
+        f.add(container);
+
+        JButton rentButton = new JButton("대여");
+        rentButton.setBounds(250, 20, 100, 50);
+        JButton bookButton = new JButton("도서");
+        bookButton.setBounds(350, 20, 100, 50);
+        JButton memberButton = new JButton("회원");
+        memberButton.setBounds(450, 20, 100, 50);
+        JButton exitButton = new JButton("종료");
+        exitButton.setBounds(550, 20, 100, 50);
+
+        JTextArea bookTextArea = new JTextArea(15, 40);
+        JScrollPane scrollPane = new JScrollPane(bookTextArea);
+        scrollPane.setBounds(200, 200, 300, 300);
+
+        // Adding book registration components
+        JLabel nameLabel = new JLabel("도서 이름:");
+        nameLabel.setBounds(50, 200, 100, 30);
+        JTextField nameField = new JTextField();
+        nameField.setBounds(150, 200, 200, 30);
+        JButton registerButton = new JButton("등록");
+        registerButton.setBounds(150, 250, 100, 30);
+
+        // Sample book images
+        bookImages.put("도서 1: 자바 프로그래밍 입문", "path_to_image1.jpg");
+        bookImages.put("도서 2: 데이터베이스 설계와 구현", "path_to_image2.jpg");
+        bookImages.put("도서 3: 알고리즘과 자료구조", "path_to_image3.jpg");
+
+        bookButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showBookList(bookTextArea);
+            }
+        });
+
+        // Adding ActionListener for registering a book
+        registerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String bookName = nameField.getText();
+                if (!bookName.isEmpty()) {
+                    bookList.add(bookName);
+                    // Update book list display
+                    showBookList(bookTextArea);
+                    nameField.setText(""); // Clear text field after registration
+                }
+            }
+        });
+
+        // Adding MouseListener to JTextArea for displaying book images
+        bookTextArea.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int offset = bookTextArea.viewToModel(e.getPoint());
+                try {
+                    String bookName = bookTextArea.getText().substring(bookTextArea.getLineStartOffset(offset),
+                            bookTextArea.getLineEndOffset(offset)).trim();
+                    if (bookImages.containsKey(bookName)) {
+                        // Display image corresponding to the clicked book
+                        String imagePath = bookImages.get(bookName);
+                        ImageIcon icon = new ImageIcon(imagePath);
+                        JOptionPane.showMessageDialog(null, new JLabel(icon));
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+        container.add(rentButton);
+        container.add(bookButton);
+        container.add(memberButton);
+        container.add(exitButton);
+
+        f.add(container);
+        f.add(scrollPane);
+        f.add(nameLabel);
+        f.add(nameField);
+        f.add(registerButton);
+    }
+
+    private static void showBookList(JTextArea bookTextArea) {
+        bookTextArea.setText("도서 목록:\n");
+        for (String book : bookList) {
+            bookTextArea.append(book + "\n");
+        }
+    }
+}
